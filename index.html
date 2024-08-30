@@ -1,11 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+  <script>
+    const choices = ["rock", "paper", "scissors"];
+    let winners = [];
+
+    function game() {
+      winners = []; // Reset winners array for a new game
+      for (let i = 1; i <= 5; i++) {
+        playRound(i);
+      }
+      document.querySelector("button").textContent = "Play new game";
+      logWins();
+    }
+
+    function playRound(round) {
+      const playerSelection = playerChoice();
+      const computerSelection = computerChoice();
+      const winner = checkWinner(playerSelection, computerSelection);
+      winners.push(winner);
+      logRound(playerSelection, computerSelection, winner, round);
+    }
+
+    function playerChoice() {
+      let input = prompt("Type Rock, Paper, or Scissors");
+      while (input == null) {
+        input = prompt("Type Rock, Paper, or Scissors");
+      }
+      input = input.toLowerCase();
+      let check = validateInput(input);
+      while (check == false) {
+        input = prompt(
+          "Type Rock, Paper, or Scissors. Spelling needs to be exact, but capitalization doesn't matter"
+        );
+        while (input == null) {
+          input = prompt("Type Rock, Paper, or Scissors");
+        }
+        input = input.toLowerCase();
+        check = validateInput(input);
+      }
+      return input;
+    }
+
+    function computerChoice() {
+      return choices[Math.floor(Math.random() * choices.length)];
+    }
+
+    function validateInput(choice) {
+      return choices.includes(choice);
+    }
+
+    function checkWinner(choiceP, choiceC) {
+      if (choiceP === choiceC) {
+        return "Tie";
+      } else if (
+        (choiceP === "rock" && choiceC == "scissors") ||
+        (choiceP === "paper" && choiceC == "rock") ||
+        (choiceP === "scissors" && choiceC == "paper")
+      ) {
+        return "Player";
+      } else {
+        return "Computer";
+      }
+    }
+
+    function logWins() {
+      let playerWins = winners.filter((item) => item == "Player").length;
+      let computerWins = winners.filter((item) => item == "Computer").length;
+      let ties = winners.filter((item) => item == "Tie").length;
+      console.log("Results:");
+      console.log("Player Wins:", playerWins);
+      console.log("Computer Wins:", computerWins);
+      console.log("Ties:", ties);
+    }
+
+    function logRound(playerChoice, computerChoice, winner, round) {
+      console.log("Round:", round);
+      console.log("Player Chose:", playerChoice);
+      console.log("Computer Chose:", computerChoice);
+      console.log(winner, "Won the Round");
+      console.log("-------------------------------");
+    }
+  </script>
 </head>
 <body>
-    <script src="script.js"></script>
+  <button onclick="game()">Start Game</button>
 </body>
 </html>

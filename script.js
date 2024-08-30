@@ -1,4 +1,4 @@
-onst choices = ["rock", "paper", "scissors"];
+const choices = ["rock", "paper", "scissors"];
 let winners = [];
 
 function game() {
